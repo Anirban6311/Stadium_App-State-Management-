@@ -3,36 +3,22 @@ part of 'home_bloc.dart';
 @immutable
 sealed class HomeState {}
 
-
 //actioned states and build states
 
-
-abstract class HomeActionedState extends HomeState{
-
-}
+abstract class HomeActionedState extends HomeState {}
 
 class HomeInitial extends HomeState {}
 
-class HomeLoadingState extends HomeState{
+class HomeLoadingState extends HomeState {}
+
+class HomeLoadedSuccessState extends HomeState {
+  final List<StadiumDataModel> stadiums;
+
+  HomeLoadedSuccessState({required this.stadiums});
 }
 
-class HomeLoadedSuccessState extends HomeState{
-    final List<StadiumDataModel> products;
+class HomeErrorState extends HomeState {}
 
-    HomeLoadedSuccessState({required this.products});
+class HomeNavigateToWishlistPageActionState extends HomeActionedState {}
 
-}
-
-class HomeErrorState extends HomeState{
-
-}
-
-class HomeNavigateToWishlistPageActionState extends HomeActionedState{
-
-}
-
-class HomeNavigateToPlannedPageActionState extends HomeActionedState{
-
-}
-
-
+class HomeNavigateToPlannedPageActionState extends HomeActionedState {}

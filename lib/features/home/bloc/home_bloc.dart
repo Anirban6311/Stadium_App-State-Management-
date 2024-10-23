@@ -29,7 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await Future.delayed(Duration(seconds: 3));
     //after sucessfull fetching of the data we can map it to the product data model that we have created
     emit(HomeLoadedSuccessState(
-        products: StadiumsData.stadiumItems
+        stadiums: StadiumsData.stadiumItems
             .map((e) => StadiumDataModel(
                 name: e['name'],
                 location: e['location'],

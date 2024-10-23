@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero_animation/features/home/bloc/home_bloc.dart';
+import 'package:hero_animation/features/home/ui/stadium_tile_widget.dart';
 import 'package:hero_animation/features/planned/ui/planned_page.dart';
 import 'package:hero_animation/features/wishlist/ui/wishlist_page.dart';
 
@@ -13,12 +14,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
+  final HomeBloc homeBloc = HomeBloc();
   void initState() {
     homeBloc.add(HomeInitialEvent());
     super.initState();
   }
 
-  final HomeBloc homeBloc = HomeBloc();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
@@ -47,6 +48,7 @@ class _HomeState extends State<Home> {
             );
 
           case HomeLoadedSuccessState:
+            final successstate = state as HomeLoadedSuccessState;
             return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -73,6 +75,12 @@ class _HomeState extends State<Home> {
                       ))
                 ],
               ),
+              body: ListView.builder(
+                  itemCount: successstate.stadiums.length,
+                  itemBuilder: (context, index) {
+                    return StadiumTileWidget(
+                        stadiumDataModel: successstate.stadiums[index]);
+                  }),
             );
 
           case HomeErrorState:

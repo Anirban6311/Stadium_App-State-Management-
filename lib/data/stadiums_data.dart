@@ -49,7 +49,7 @@ class StadiumsData {
       "description":
           "Home to the New York Giants and New York Jets, and host of major events like the Super Bowl.",
       "imageUrl":
-          "https://www.muenchen.de/sites/default/files/styles/3_2_w320/public/2022-06/allianzarena-daemmerung.jpg.webp"
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/New_Meadowlands_Stadium_Mezz_Corner.jpg/1200px-New_Meadowlands_Stadium_Mezz_Corner.jpg"
     },
     {
       "name": "Azteca Stadium",
