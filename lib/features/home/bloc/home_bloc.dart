@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:hero_animation/data/stadiums_data.dart';
+import 'package:hero_animation/data/wishlist_items.dart';
 import 'package:hero_animation/features/home/models/home_stadium_data_model.dart';
 import 'package:meta/meta.dart';
+
+import '../../../data/planned_items.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -44,11 +47,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> homeStadiumWishlistButtonClickedEvent(
       HomeStadiumWishlistButtonClickedEvent event, Emitter<HomeState> emit) {
     print("Wishlist Stadium Clicked!");
+
+    ///passing data from event to bloc
+    wishlistStadiums.add(event.stadiumClicked);
+    emit(HomeStadiumWishlistedActionState());
   }
 
   FutureOr<void> homeStadiumPlannedButtonClickedEvent(
       HomeStadiumPlannedButtonClickedEvent event, Emitter<HomeState> emit) {
     print("Planned Stadium Clicked");
+
+    ///passing data from event to bloc
+    plannedStadiums.add(event.stadiumClicked);
+    emit(HomeStadiumPlannedActionState());
   }
 
   FutureOr<void> homeWishlistButtonNavigateEvent(

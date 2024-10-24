@@ -33,6 +33,18 @@ class _HomeState extends State<Home> {
         } else if (state is HomeNavigateToWishlistPageActionState) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => WishlistPage()));
+        } else if (state is HomeStadiumWishlistedActionState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Stadium wishlisted!"),
+            ),
+          );
+        } else if (state is HomeStadiumPlannedActionState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Stadium planned!"),
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -79,10 +91,10 @@ class _HomeState extends State<Home> {
                   itemCount: successstate.stadiums.length,
                   itemBuilder: (context, index) {
                     return StadiumTileWidget(
+                        homeBloc: homeBloc,
                         stadiumDataModel: successstate.stadiums[index]);
                   }),
             );
-
           case HomeErrorState:
             return Scaffold(
               body: Center(

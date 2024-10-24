@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hero_animation/features/home/models/home_stadium_data_model.dart';
 
-import '../bloc/home_bloc.dart';
+import '../bloc/planned_bloc.dart';
 
-class StadiumTileWidget extends StatelessWidget {
-  final HomeBloc homeBloc;
+class PlannedTileWidget extends StatelessWidget {
+  final PlannedBloc plannedBloc;
   final StadiumDataModel stadiumDataModel;
-  const StadiumTileWidget(
-      {super.key, required this.stadiumDataModel, required this.homeBloc});
+  const PlannedTileWidget(
+      {super.key, required this.stadiumDataModel, required this.plannedBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,8 @@ class StadiumTileWidget extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        homeBloc.add(HomeStadiumWishlistButtonClickedEvent(
-                            stadiumClicked: stadiumDataModel));
+                        // plannedBloc.add(HomeStadiumWishlistButtonClickedEvent(
+                        //     stadiumClicked: stadiumDataModel));
                       },
                       icon: Icon(
                         Icons.favorite_border_outlined,
@@ -55,8 +55,8 @@ class StadiumTileWidget extends StatelessWidget {
                       )),
                   IconButton(
                       onPressed: () {
-                        homeBloc.add(HomeStadiumPlannedButtonClickedEvent(
-                            stadiumClicked: stadiumDataModel));
+                        // homeBloc.add(HomeStadiumPlannedButtonClickedEvent(
+                        //     stadiumClicked: stadiumDataModel));
                       },
                       icon: Icon(
                         Icons.checklist,
