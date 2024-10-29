@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'features/home/ui/home.dart';
+import 'package:hero_animation/features/splash_screen/ui/splash_screen.dart';
 
-void main()
-{
-    runApp(MyApp());
+void main() {
+  runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: SplashScreen(),
     );
   }
 }

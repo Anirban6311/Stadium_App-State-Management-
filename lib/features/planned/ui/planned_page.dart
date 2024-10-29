@@ -22,7 +22,11 @@ class _PlannedPageState extends State<PlannedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Planned"),
+        backgroundColor: Colors.teal,
+        title: Text(
+          "Planned",
+          style: TextStyle(fontSize: 22, color: Colors.white),
+        ),
       ),
       body: BlocConsumer<PlannedBloc, PlannedState>(
         bloc: plannedBloc,

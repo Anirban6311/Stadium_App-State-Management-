@@ -55,8 +55,8 @@ class PlannedTileWidget extends StatelessWidget {
                       )),
                   IconButton(
                       onPressed: () {
-                        // homeBloc.add(HomeStadiumPlannedButtonClickedEvent(
-                        //     stadiumClicked: stadiumDataModel));
+                        plannedBloc.add(PlannedRemoveFromPlanned(
+                            stadiumDataModel: stadiumDataModel));
                       },
                       icon: Icon(
                         Icons.checklist,

@@ -4,6 +4,7 @@ import 'package:hero_animation/features/home/bloc/home_bloc.dart';
 import 'package:hero_animation/features/home/ui/stadium_tile_widget.dart';
 import 'package:hero_animation/features/planned/ui/planned_page.dart';
 import 'package:hero_animation/features/wishlist/ui/wishlist_page.dart';
+import 'package:lottie/lottie.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -55,7 +56,11 @@ class _HomeState extends State<Home> {
             //if it is loading then we will show a loader
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: Center(
+                  child: Container(
+                      child: Lottie.asset(
+                          'assets/animations/stadium_animation.json')),
+                ),
               ),
             );
 

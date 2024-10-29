@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hero_animation/features/home/models/home_stadium_data_model.dart';
+import 'package:hero_animation/features/wishlist/bloc/wishlist_bloc.dart';
 
-import '../bloc/home_bloc.dart';
-
-class StadiumTileWidget extends StatelessWidget {
-  final HomeBloc homeBloc;
+class WishListTileWidget extends StatelessWidget {
+  final WishlistBloc wishlistBloc;
   final StadiumDataModel stadiumDataModel;
-  const StadiumTileWidget(
-      {super.key, required this.stadiumDataModel, required this.homeBloc});
+  const WishListTileWidget(
+      {super.key, required this.stadiumDataModel, required this.wishlistBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +40,13 @@ class StadiumTileWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Capacity : ${stadiumDataModel.capacity}",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
+              Text("Capacity : ${stadiumDataModel.capacity}"),
               Row(
                 children: [
                   IconButton(
                       onPressed: () {
-                        homeBloc.add(HomeStadiumWishlistButtonClickedEvent(
-                            stadiumClicked: stadiumDataModel));
+                        // plannedBloc.add(HomeStadiumWishlistButtonClickedEvent(
+                        //     stadiumClicked: stadiumDataModel));
                       },
                       icon: Icon(
                         Icons.favorite_border_outlined,
@@ -61,8 +54,8 @@ class StadiumTileWidget extends StatelessWidget {
                       )),
                   IconButton(
                       onPressed: () {
-                        homeBloc.add(HomeStadiumPlannedButtonClickedEvent(
-                            stadiumClicked: stadiumDataModel));
+                        wishlistBloc.add(WishlistRemoveFromWishlist(
+                            stadiumDataModel: stadiumDataModel));
                       },
                       icon: Icon(
                         Icons.checklist,
