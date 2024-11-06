@@ -29,30 +29,32 @@ class _WishlistPageState extends State<WishlistPage> {
             style: TextStyle(fontSize: 22, color: Colors.white),
           ),
         ),
-        body: BlocConsumer<WishlistBloc, WishlistState>(
-          bloc: wishlistBloc,
-          listener: (context, state) {},
-          listenWhen: (previous, current) => current is WishListedActionState,
-          buildWhen: (previous, current) => current is! WishListedActionState,
-          builder: (context, state) {
-            switch (state.runtimeType) {
-              case WishListedSuccessState:
-                final successtate = state as WishListedSuccessState;
-                return ListView.builder(
-                    itemCount: wishlistStadiums.length,
-                    itemBuilder: (context, index) {
-                      return WishListTileWidget(
-                        stadiumDataModel: successtate.wishlistStadiums[index],
-                        wishlistBloc: wishlistBloc,
-                      );
-                    });
-
-              default:
-                return Center(
-                  child: Text("No wishlisted stadiums"),
-                );
-            }
-          },
+        backgroundColor: Colors.indigoAccent,
+        body: Container(
+          child: BlocConsumer<WishlistBloc, WishlistState>(
+            bloc: wishlistBloc,
+            listener: (context, state) {},
+            listenWhen: (previous, current) => current is WishListedActionState,
+            buildWhen: (previous, current) => current is! WishListedActionState,
+            builder: (context, state) {
+              switch (state.runtimeType) {
+                case WishListedSuccessState:
+                  final successtate = state as WishListedSuccessState;
+                  return ListView.builder(
+                      itemCount: wishlistStadiums.length,
+                      itemBuilder: (context, index) {
+                        return WishListTileWidget(
+                          stadiumDataModel: successtate.wishlistStadiums[index],
+                          wishlistBloc: wishlistBloc,
+                        );
+                      });
+                default:
+                  return Center(
+                    child: Text("No wishlisted stadiums"),
+                  );
+              }
+            },
+          ),
         ));
   }
 }

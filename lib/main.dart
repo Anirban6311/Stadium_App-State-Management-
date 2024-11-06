@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hero_animation/features/splash_screen/ui/splash_screen.dart';
+
+import 'features/splash_screen/ui/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      // home: StadiumViewPage(),
     );
   }
 }

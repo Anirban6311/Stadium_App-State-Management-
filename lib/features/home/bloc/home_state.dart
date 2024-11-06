@@ -19,6 +19,11 @@ class HomeLoadedSuccessState extends HomeState {
 
 class HomeErrorState extends HomeState {}
 
+class HomeStadiumImageClickedActionState extends HomeActionedState {
+  final StadiumDataModel stadiumDataModel;
+  HomeStadiumImageClickedActionState({required this.stadiumDataModel});
+}
+
 class HomeNavigateToWishlistPageActionState extends HomeActionedState {}
 
 class HomeNavigateToPlannedPageActionState extends HomeActionedState {}

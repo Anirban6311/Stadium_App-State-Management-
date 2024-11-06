@@ -16,6 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     //on this event give this state
     ///priority wise events
     on<HomeInitialEvent>(homeInitialEvent);
+    on<HomeStadiumImageClickedEvent>(homeStadiumImageClickedEvent);
     on<HomeStadiumWishlistButtonClickedEvent>(
         homeStadiumWishlistButtonClickedEvent);
     on<HomeStadiumPlannedButtonClickedEvent>(
@@ -42,6 +43,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 imageUrl: e['imageUrl']))
             .toList()));
     // also give a init state after this to load the data to data model just after opening of the screen
+  }
+
+  FutureOr<void> homeStadiumImageClickedEvent(
+      HomeStadiumImageClickedEvent event, Emitter<HomeState> emit) {
+    print("Stadium Clicked");
+    emit(HomeStadiumImageClickedActionState(
+        stadiumDataModel: event.stadiumClicked));
   }
 
   FutureOr<void> homeStadiumWishlistButtonClickedEvent(
@@ -76,3 +84,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeNavigateToPlannedPageActionState());
   }
 }
+
+/// home stadium clicked event means home stadium navigate (for navigation)

@@ -8,7 +8,6 @@ class PlannedTileWidget extends StatelessWidget {
   final StadiumDataModel stadiumDataModel;
   const PlannedTileWidget(
       {super.key, required this.stadiumDataModel, required this.plannedBloc});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,20 +45,11 @@ class PlannedTileWidget extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        // plannedBloc.add(HomeStadiumWishlistButtonClickedEvent(
-                        //     stadiumClicked: stadiumDataModel));
-                      },
-                      icon: Icon(
-                        Icons.favorite_border_outlined,
-                        color: Colors.black,
-                      )),
-                  IconButton(
-                      onPressed: () {
                         plannedBloc.add(PlannedRemoveFromPlanned(
                             stadiumDataModel: stadiumDataModel));
                       },
                       icon: Icon(
-                        Icons.checklist,
+                        Icons.remove_circle_outline,
                         color: Colors.black,
                       ))
                 ],

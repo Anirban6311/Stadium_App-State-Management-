@@ -45,22 +45,14 @@ class WishListTileWidget extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        // plannedBloc.add(HomeStadiumWishlistButtonClickedEvent(
-                        //     stadiumClicked: stadiumDataModel));
-                      },
-                      icon: Icon(
-                        Icons.favorite_border_outlined,
-                        color: Colors.black,
-                      )),
-                  IconButton(
-                      onPressed: () {
                         wishlistBloc.add(WishlistRemoveFromWishlist(
                             stadiumDataModel: stadiumDataModel));
                       },
                       icon: Icon(
-                        Icons.checklist,
-                        color: Colors.black,
-                      ))
+                        Icons.remove_circle_sharp,
+                        color: Colors.red,
+                        size: 24,
+                      )),
                 ],
               )
             ],

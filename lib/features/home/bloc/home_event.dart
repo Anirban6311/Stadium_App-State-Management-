@@ -5,6 +5,13 @@ sealed class HomeEvent {}
 
 class HomeInitialEvent extends HomeEvent {}
 
+class HomeStadiumImageClickedEvent extends HomeEvent {
+  final StadiumDataModel stadiumClicked;
+  HomeStadiumImageClickedEvent({
+    required this.stadiumClicked,
+  });
+}
+
 class HomeStadiumWishlistButtonClickedEvent extends HomeEvent {
   ///passing data through events
   final StadiumDataModel stadiumClicked;

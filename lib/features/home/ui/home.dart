@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero_animation/features/home/bloc/home_bloc.dart';
 import 'package:hero_animation/features/home/ui/stadium_tile_widget.dart';
 import 'package:hero_animation/features/planned/ui/planned_page.dart';
+import 'package:hero_animation/features/stadium_view/ui/stadium_view.dart';
 import 'package:hero_animation/features/wishlist/ui/wishlist_page.dart';
 import 'package:lottie/lottie.dart';
 
@@ -46,6 +47,15 @@ class _HomeState extends State<Home> {
               content: Text("Stadium planned!"),
             ),
           );
+        } else if (state is HomeStadiumImageClickedActionState) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StadiumViewPage(
+                stadiumDataModel: state.stadiumDataModel,
+              ),
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -55,6 +65,7 @@ class _HomeState extends State<Home> {
           case HomeLoadingState:
             //if it is loading then we will show a loader
             return Scaffold(
+              backgroundColor: Colors.blueAccent,
               body: Center(
                 child: Center(
                   child: Container(
@@ -67,6 +78,7 @@ class _HomeState extends State<Home> {
           case HomeLoadedSuccessState:
             final successstate = state as HomeLoadedSuccessState;
             return Scaffold(
+              backgroundColor: Colors.indigo,
               appBar: AppBar(
                 title: Text(
                   "24/7 Stadiums",
