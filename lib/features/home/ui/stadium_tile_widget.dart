@@ -99,7 +99,8 @@ class StadiumTileWidget extends StatelessWidget {
                       homeBloc.add(HomeStadiumPlannedButtonClickedEvent(
                           stadiumClicked: stadiumDataModel));
                     },
-                    icon: Icon(Icons.checklist, color: Colors.purple),
+                    icon: Icon(Icons.calendar_month_outlined,
+                        color: Colors.purple),
                   ),
                 ],
               ),

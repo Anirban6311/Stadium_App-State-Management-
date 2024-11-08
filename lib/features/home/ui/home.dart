@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero_animation/features/home/bloc/home_bloc.dart';
 import 'package:hero_animation/features/home/ui/stadium_tile_widget.dart';
+import 'package:hero_animation/features/notes/ui/notes_page.dart';
 import 'package:hero_animation/features/planned/ui/planned_page.dart';
 import 'package:hero_animation/features/stadium_view/ui/stadium_view.dart';
 import 'package:hero_animation/features/wishlist/ui/wishlist_page.dart';
@@ -35,6 +36,9 @@ class _HomeState extends State<Home> {
         } else if (state is HomeNavigateToWishlistPageActionState) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => WishlistPage()));
+        } else if (state is HomeNavigateToTaskPageActionState) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => NotesPage()));
         } else if (state is HomeStadiumWishlistedActionState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -65,7 +69,7 @@ class _HomeState extends State<Home> {
           case HomeLoadingState:
             //if it is loading then we will show a loader
             return Scaffold(
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Colors.indigo,
               body: Center(
                 child: Center(
                   child: Container(
@@ -97,6 +101,16 @@ class _HomeState extends State<Home> {
                   IconButton(
                       onPressed: () {
                         homeBloc.add(HomePlannedButtonNavigateEvent());
+                      },
+                      icon: Icon(
+                        Icons.calendar_month,
+                        color: Colors.white,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        homeBloc.add(HomeTasksButtonNavigateEvent());
+
+                        ///task is actually notes--> dont confuse
                       },
                       icon: Icon(
                         Icons.checklist,

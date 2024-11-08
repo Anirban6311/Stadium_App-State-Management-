@@ -31,3 +31,5 @@ class HomeStadiumPlannedButtonClickedEvent extends HomeEvent {
 class HomeWishlistButtonNavigateEvent extends HomeEvent {}
 
 class HomePlannedButtonNavigateEvent extends HomeEvent {}
+
+class HomeTasksButtonNavigateEvent extends HomeEvent {}

@@ -28,6 +28,8 @@ class HomeNavigateToWishlistPageActionState extends HomeActionedState {}
 
 class HomeNavigateToPlannedPageActionState extends HomeActionedState {}
 
+class HomeNavigateToTaskPageActionState extends HomeActionedState {}
+
 class HomeStadiumWishlistedActionState extends HomeActionedState {}
 
 class HomeStadiumPlannedActionState extends HomeActionedState {}

@@ -23,6 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         homeStadiumPlannedButtonClickedEvent);
     on<HomeWishlistButtonNavigateEvent>(homeWishlistButtonNavigateEvent);
     on<HomePlannedButtonNavigateEvent>(homePlannedButtonNavigateEvent);
+    on<HomeTasksButtonNavigateEvent>(homeTasksButtonNavigateEvent);
     // add(HomeInitialEvent());
   }
 
@@ -82,6 +83,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     print("Planned Navigate Clicked");
     // Emit the state for navigation
     emit(HomeNavigateToPlannedPageActionState());
+  }
+
+  FutureOr<void> homeTasksButtonNavigateEvent(
+      HomeTasksButtonNavigateEvent event, Emitter<HomeState> emit) {
+    print("Task Navigate Clicked");
+    emit(HomeNavigateToTaskPageActionState());
   }
 }
 
