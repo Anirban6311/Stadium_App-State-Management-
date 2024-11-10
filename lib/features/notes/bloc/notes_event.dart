@@ -14,11 +14,12 @@ class FetchNotesEvent extends NotesEvent {}
 class AddNoteEvent extends NotesEvent {
   final String title;
   final String description;
-
-  const AddNoteEvent({required this.title, required this.description});
+  final String image;
+  const AddNoteEvent(
+      {required this.title, required this.description, required this.image});
 
   @override
-  List<Object> get props => [title, description];
+  List<Object> get props => [title, description, image];
 }
 
 // Event to update an existing note

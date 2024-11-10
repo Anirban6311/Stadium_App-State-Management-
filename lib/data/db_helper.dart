@@ -28,19 +28,28 @@ class DBHelper {
     Directory appDir = await getApplicationDocumentsDirectory();
     String dbPath = join(appDir.path, 'noteDB.db');
 
-    // Correcting the SQL syntax error: 'auto increment' -> 'AUTOINCREMENT'
-    return await openDatabase(dbPath, onCreate: (db, version) {
+    // Updated to include onUpgrade
+    return await openDatabase(dbPath, version: 2, onCreate: (db, version) {
       db.execute(
-          "CREATE TABLE $TABLE_NOTE ($COLUMN_NOTE_SNO INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_NOTE_TITLE TEXT, $COLUMN_NOTE_DESC TEXT ,$COLUMN_NOTE_IMAGE TEXT)");
-    }, version: 1);
+          "CREATE TABLE $TABLE_NOTE ($COLUMN_NOTE_SNO INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_NOTE_TITLE TEXT, $COLUMN_NOTE_DESC TEXT, $COLUMN_NOTE_IMAGE TEXT)");
+    }, onUpgrade: (db, oldVersion, newVersion) {
+      if (oldVersion < 2) {
+        db.execute(
+            "ALTER TABLE $TABLE_NOTE ADD COLUMN $COLUMN_NOTE_IMAGE TEXT");
+      }
+    });
   }
 
   //all queries
-  Future<bool> addNote({required String mTitle, required String mDesc}) async {
+  Future<bool> addNote(
+      {required String mTitle,
+      required String mDesc,
+      required String mImage}) async {
     var db = await getDB();
     int rowsAffected = await db.insert(TABLE_NOTE, {
       COLUMN_NOTE_TITLE: mTitle,
       COLUMN_NOTE_DESC: mDesc,
+      COLUMN_NOTE_IMAGE: mImage
     });
     return rowsAffected > 0;
   }

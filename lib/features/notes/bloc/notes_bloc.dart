@@ -32,8 +32,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   FutureOr<void> addNoteEvent(
       AddNoteEvent event, Emitter<NotesState> emit) async {
     try {
-      final success =
-          await dbHelper.addNote(mTitle: event.title, mDesc: event.description);
+      final success = await dbHelper.addNote(
+          mTitle: event.title, mDesc: event.description, mImage: event.image);
       //if the note is added successfully
       if (success) {
         //reload the state of getallnotes
