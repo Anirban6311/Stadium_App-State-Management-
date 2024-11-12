@@ -6,7 +6,7 @@ import 'package:hero_animation/features/stadium_view/bloc/stadium_view_bloc.dart
 
 class StadiumViewPage extends StatefulWidget {
   final StadiumDataModel stadiumDataModel;
-  StadiumViewPage({required this.stadiumDataModel});
+  const StadiumViewPage({super.key, required this.stadiumDataModel});
   @override
   State<StadiumViewPage> createState() => _StadiumViewPageState();
 }
@@ -19,6 +19,15 @@ class _StadiumViewPageState extends State<StadiumViewPage> {
     super.initState();
   }
 
+  bool isClicked = false;
+  void toggleStatus() {
+    setState(() {
+      isClicked = !isClicked;
+    });
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("Liked Stadium History")));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +38,7 @@ class _StadiumViewPageState extends State<StadiumViewPage> {
         buildWhen: (previous, current) => current is! StadiumViewActionState,
         builder: (context, state) {
           switch (state.runtimeType) {
-            case StadiumClickedSuccessState:
+            case StadiumClickedSuccessState _:
               final successtate = state as StadiumClickedSuccessState;
               return Stack(
                 children: [
@@ -54,11 +63,11 @@ class _StadiumViewPageState extends State<StadiumViewPage> {
                       return Container(
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.9),
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(24.0),
                             topRight: Radius.circular(24.0),
                           ),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black26,
                               blurRadius: 10.0,
@@ -81,14 +90,14 @@ class _StadiumViewPageState extends State<StadiumViewPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${widget.stadiumDataModel.name}',
+                                        widget.stadiumDataModel.name,
                                         style: GoogleFonts.poppins(
                                           fontSize: 26.0,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black87,
                                         ),
                                       ),
-                                      SizedBox(height: 8.0),
+                                      const SizedBox(height: 8.0),
                                       Text(
                                         'Opened: ${widget.stadiumDataModel.openedYear}',
                                         style: GoogleFonts.poppins(
@@ -96,9 +105,9 @@ class _StadiumViewPageState extends State<StadiumViewPage> {
                                           color: Colors.grey[700],
                                         ),
                                       ),
-                                      SizedBox(height: 16.0),
+                                      const SizedBox(height: 16.0),
                                       Text(
-                                        '${widget.stadiumDataModel.description}',
+                                        widget.stadiumDataModel.description,
                                         style: GoogleFonts.poppins(
                                           fontSize: 16.0,
                                           height: 1.5,
@@ -111,37 +120,22 @@ class _StadiumViewPageState extends State<StadiumViewPage> {
                                 Column(
                                   children: [
                                     IconButton(
-                                      icon: Icon(Icons.favorite),
+                                      icon: isClicked
+                                          ? const Icon(Icons.favorite)
+                                          : const Icon(
+                                              Icons.favorite_border_outlined),
                                       color: Colors.redAccent,
-                                      onPressed: () {},
-                                      iconSize: 28.0,
-                                    ),
-                                    SizedBox(height: 10),
-                                    IconButton(
-                                      icon: Icon(Icons.checklist),
-                                      color: Colors.blueAccent,
-                                      onPressed: () {},
+                                      onPressed: toggleStatus,
                                       iconSize: 28.0,
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Divider(color: Colors.grey[300], thickness: 1),
-                            SizedBox(height: 10),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Text(
-                                "More Details",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ),
+                            const SizedBox(height: 10),
+
                             // Additional sections or information can go here
                           ],
                         ),
@@ -151,7 +145,8 @@ class _StadiumViewPageState extends State<StadiumViewPage> {
                 ],
               );
             default:
-              return Center(child: Text("Cannot fetch the clicked stadium"));
+              return const Center(
+                  child: Text("Cannot fetch the clicked stadium"));
           }
         },
       ),

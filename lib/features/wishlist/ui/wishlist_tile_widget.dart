@@ -11,13 +11,13 @@ class WishListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Column(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: Container(
+            child: SizedBox(
               height: 200,
               width: 500,
               child: Image.network(
@@ -26,12 +26,12 @@ class WishListTileWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
             stadiumDataModel.name,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
@@ -48,7 +48,7 @@ class WishListTileWidget extends StatelessWidget {
                         wishlistBloc.add(WishlistRemoveFromWishlist(
                             stadiumDataModel: stadiumDataModel));
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.remove_circle_sharp,
                         color: Colors.red,
                         size: 24,
@@ -57,7 +57,7 @@ class WishListTileWidget extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
         ],

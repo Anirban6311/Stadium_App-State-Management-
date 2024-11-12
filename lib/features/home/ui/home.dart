@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero_animation/features/home/bloc/home_bloc.dart';
 import 'package:hero_animation/features/home/ui/stadium_tile_widget.dart';
+import 'package:hero_animation/features/home/ui/widgets/home_drawer.dart';
 import 'package:hero_animation/features/notes/ui/notes_page.dart';
 import 'package:hero_animation/features/planned/ui/planned_page.dart';
 import 'package:hero_animation/features/stadium_view/ui/stadium_view.dart';
@@ -16,8 +17,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  @override
   final HomeBloc homeBloc = HomeBloc();
+  @override
   void initState() {
     homeBloc.add(HomeInitialEvent());
     super.initState();
@@ -31,24 +32,24 @@ class _HomeState extends State<Home> {
       buildWhen: (previous, current) => current is! HomeActionedState,
       listener: (context, state) {
         if (state is HomeNavigateToPlannedPageActionState) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => PlannedPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const PlannedPage()));
         } else if (state is HomeNavigateToWishlistPageActionState) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => WishlistPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const WishlistPage()));
         } else if (state is HomeNavigateToTaskPageActionState) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NotesPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const NotesPage()));
         } else if (state is HomeStadiumWishlistedActionState) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Stadium wishlisted!"),
+            const SnackBar(
+              content: Text("WishList Button Clicked"),
             ),
           );
         } else if (state is HomeStadiumPlannedActionState) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Stadium planned!"),
+            const SnackBar(
+              content: Text("Planner Button Clicked"),
             ),
           );
         } else if (state is HomeStadiumImageClickedActionState) {
@@ -77,14 +78,16 @@ class _HomeState extends State<Home> {
                           'assets/animations/stadium_animation.json')),
                 ),
               ),
+              drawer: const HomeDrawer(),
             );
 
           case HomeLoadedSuccessState:
             final successstate = state as HomeLoadedSuccessState;
             return Scaffold(
+              drawer: const HomeDrawer(),
               backgroundColor: Colors.indigo,
               appBar: AppBar(
-                title: Text(
+                title: const Text(
                   "24/7 Stadiums",
                   style: TextStyle(fontSize: 22, color: Colors.white),
                 ),
@@ -94,7 +97,7 @@ class _HomeState extends State<Home> {
                       onPressed: () {
                         homeBloc.add(HomeWishlistButtonNavigateEvent());
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.favorite_border_outlined,
                         color: Colors.white,
                       )),
@@ -102,7 +105,7 @@ class _HomeState extends State<Home> {
                       onPressed: () {
                         homeBloc.add(HomePlannedButtonNavigateEvent());
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.calendar_month,
                         color: Colors.white,
                       )),
@@ -112,7 +115,7 @@ class _HomeState extends State<Home> {
 
                         ///task is actually notes--> dont confuse
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.checklist,
                         color: Colors.white,
                       ))
@@ -122,18 +125,19 @@ class _HomeState extends State<Home> {
                   itemCount: successstate.stadiums.length,
                   itemBuilder: (context, index) {
                     return StadiumTileWidget(
-                        homeBloc: homeBloc,
-                        stadiumDataModel: successstate.stadiums[index]);
+                      homeBloc: homeBloc,
+                      stadiumDataModel: successstate.stadiums[index],
+                    );
                   }),
             );
-          case HomeErrorState:
-            return Scaffold(
+          case HomeErrorState _:
+            return const Scaffold(
               body: Center(
                 child: Text("Error"),
               ),
             );
           default:
-            return SizedBox();
+            return const SizedBox();
         }
       },
     );

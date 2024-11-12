@@ -31,18 +31,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeInitialEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
     //adding some time to fetch the data
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     //after sucessfull fetching of the data we can map it to the product data model that we have created
     emit(HomeLoadedSuccessState(
-        stadiums: StadiumsData.stadiumItems
-            .map((e) => StadiumDataModel(
-                name: e['name'],
-                location: e['location'],
-                capacity: e['capacity'],
-                openedYear: e['openedYear'],
-                description: e['description'],
-                imageUrl: e['imageUrl']))
-            .toList()));
+      stadiums: StadiumsData.stadiumItems
+          .map((e) => StadiumDataModel(
+              name: e['name'],
+              location: e['location'],
+              capacity: e['capacity'],
+              openedYear: e['openedYear'],
+              description: e['description'],
+              imageUrl: e['imageUrl']))
+          .toList(),
+    ));
     // also give a init state after this to load the data to data model just after opening of the screen
   }
 
@@ -55,10 +56,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeStadiumWishlistButtonClickedEvent(
       HomeStadiumWishlistButtonClickedEvent event, Emitter<HomeState> emit) {
-    print("Wishlist Stadium Clicked!");
+    print("Wishlist Stadium Clicked (liked/disliked)");
 
     ///passing data from event to bloc
-    wishlistStadiums.add(event.stadiumClicked);
+    if (event.isLiked) {
+      wishlistStadiums.add(event.stadiumClicked);
+    } else {
+      wishlistStadiums.remove(event.stadiumClicked);
+    }
+
     emit(HomeStadiumWishlistedActionState());
   }
 

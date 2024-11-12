@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero_animation/features/planned/bloc/planned_bloc.dart';
 import 'package:hero_animation/features/planned/ui/planned_tile_widget.dart';
 
+import '../../home/ui/widgets/home_drawer.dart';
+
 class PlannedPage extends StatefulWidget {
   const PlannedPage({super.key});
 
@@ -21,9 +23,11 @@ class _PlannedPageState extends State<PlannedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const HomeDrawer(),
+      backgroundColor: Colors.indigo,
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: Text(
+        title: const Text(
           "Planned",
           style: TextStyle(fontSize: 22, color: Colors.white),
         ),
@@ -48,7 +52,7 @@ class _PlannedPageState extends State<PlannedPage> {
                 },
               );
             default:
-              return Center(child: Text("No data available"));
+              return const Center(child: Text("No data available"));
           }
         },
       ),

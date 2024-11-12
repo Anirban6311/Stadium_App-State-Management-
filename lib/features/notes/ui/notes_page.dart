@@ -2,14 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:hero_animation/features/notes/ui/widgets/notes_dialog.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../data/db_helper.dart';
+import '../../home/ui/widgets/home_drawer.dart';
 import '../bloc/notes_bloc.dart';
 import '../bloc/notes_event.dart';
 
 class NotesPage extends StatefulWidget {
+  const NotesPage({super.key});
+
   @override
   _NotesPageState createState() => _NotesPageState();
 }
@@ -26,9 +29,10 @@ class _NotesPageState extends State<NotesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const HomeDrawer(),
       backgroundColor: Colors.indigo,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Task Manager",
           style: TextStyle(fontSize: 22, color: Colors.white),
         ),
@@ -52,6 +56,16 @@ class _NotesPageState extends State<NotesPage> {
             case NotesLoadedState:
               final loadedState = state as NotesLoadedState;
 
+              if (loadedState.notes.isEmpty) {
+                return Center(
+                  child: Lottie.asset(
+                    'assets/animations/no_data.json',
+                    repeat: true,
+                    animate: true,
+                  ),
+                );
+              }
+
               return Container(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
@@ -61,7 +75,7 @@ class _NotesPageState extends State<NotesPage> {
                     final isDeleting = deletingItems.contains(note['sno']);
 
                     return AnimatedSwitcher(
-                      duration: Duration(seconds: 2),
+                      duration: const Duration(seconds: 5),
                       switchInCurve: Curves.easeIn,
                       switchOutCurve: Curves.easeOut,
                       child: isDeleting
@@ -73,20 +87,21 @@ class _NotesPageState extends State<NotesPage> {
                           : Card(
                               key: ValueKey('note_card_${note['sno']}'),
                               elevation: 6,
-                              margin: EdgeInsets.all(10),
+                              margin: const EdgeInsets.all(10),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               color: Colors.white24,
                               child: Padding(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        _showNoteDialog(
+                                        showNoteDialog(
                                           context,
+                                          notesBloc,
                                           isUpdate: true,
                                           sno: note['sno'],
                                           title: note['title'],
@@ -100,16 +115,17 @@ class _NotesPageState extends State<NotesPage> {
                                           width: double.infinity,
                                           color: Colors.grey[300],
                                           child: Center(
+                                              // Decoding the image for displaying
                                               child: Image.memory(
                                             base64Decode(note['img']),
                                           )),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     Text(
                                       note['title'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black87,
@@ -117,22 +133,22 @@ class _NotesPageState extends State<NotesPage> {
                                     ),
                                     Text(
                                       'Created: ${note['date']}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.black54,
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Text(
                                       note['desc'],
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 15,
                                         color: Colors.black87,
                                       ),
                                     ),
-                                    Divider(
+                                    const Divider(
                                       thickness: 1.5,
                                       height: 20,
                                       color: Colors.grey,
@@ -140,11 +156,12 @@ class _NotesPageState extends State<NotesPage> {
                                     Row(
                                       children: [
                                         IconButton(
-                                          icon: Icon(Icons.edit,
+                                          icon: const Icon(Icons.edit,
                                               color: Colors.orange),
                                           onPressed: () {
-                                            _showNoteDialog(
+                                            showNoteDialog(
                                               context,
+                                              notesBloc,
                                               isUpdate: true,
                                               sno: note['sno'],
                                               title: note['title'],
@@ -153,15 +170,15 @@ class _NotesPageState extends State<NotesPage> {
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.delete,
+                                          icon: const Icon(Icons.delete,
                                               color: Colors.red),
                                           onPressed: () {
                                             setState(() {
                                               deletingItems.add(note['sno']);
                                             });
                                             Future.delayed(
-                                                Duration(milliseconds: 500),
-                                                () {
+                                                const Duration(
+                                                    milliseconds: 500), () {
                                               notesBloc.add(RemoveNoteEvent(
                                                   sno: note['sno']));
                                             });
@@ -177,140 +194,27 @@ class _NotesPageState extends State<NotesPage> {
                   },
                 ),
               );
-
             default:
-              return const Center(child: Text("No notes available"));
+              return Center(
+                child: Lottie.asset(
+                  'assets/animations/no_data.json',
+                  repeat: true,
+                  animate: true,
+                ),
+              );
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.redAccent,
         onPressed: () {
-          _showNoteDialog(context);
+          showNoteDialog(context, notesBloc);
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
       ),
     );
   }
-
-  void _showNoteDialog(BuildContext context,
-      {bool isUpdate = false, int? sno, String? title, String? desc}) {
-    final titleController = TextEditingController(text: title);
-    final descController = TextEditingController(text: desc);
-    String? pickedImage;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              backgroundColor: Colors.indigo,
-              title: Text(
-                isUpdate ? 'Update Note' : 'Add Note',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: titleController,
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                        labelStyle: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      controller: descController,
-                      decoration: InputDecoration(
-                        labelText: 'Description',
-                        labelStyle: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () async {
-                        final ImagePicker picker = ImagePicker();
-                        final XFile? imageFile =
-                            await picker.pickImage(source: ImageSource.camera);
-                        if (imageFile != null) {
-                          final base64Image =
-                              base64Encode(await imageFile.readAsBytes());
-                          setState(() {
-                            pickedImage = base64Image;
-                          });
-                        }
-                      },
-                      child: Text(
-                        'Pick Image',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    if (pickedImage == null)
-                      Text(
-                        'Image is required!',
-                        style: TextStyle(color: Colors.redAccent, fontSize: 16),
-                      ),
-                  ],
-                ),
-              ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    if (titleController.text.isNotEmpty &&
-                        descController.text.isNotEmpty &&
-                        pickedImage != null) {
-                      notesBloc.add(
-                        isUpdate
-                            ? UpdateNoteEvent(
-                                sno: sno!,
-                                title: titleController.text,
-                                description: descController.text,
-                              )
-                            : AddNoteEvent(
-                                title: titleController.text,
-                                description: descController.text,
-                                image: pickedImage!,
-                              ),
-                      );
-                      Navigator.pop(context);
-                    } else {
-                      setState(
-                          () {}); // Re-render to show validation message if needed
-                    }
-                  },
-                  child: Text(
-                    isUpdate ? 'Update' : 'Add',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }source
 }

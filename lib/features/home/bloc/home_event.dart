@@ -15,9 +15,10 @@ class HomeStadiumImageClickedEvent extends HomeEvent {
 class HomeStadiumWishlistButtonClickedEvent extends HomeEvent {
   ///passing data through events
   final StadiumDataModel stadiumClicked;
-  HomeStadiumWishlistButtonClickedEvent({
-    required this.stadiumClicked,
-  });
+  final bool isLiked;
+
+  HomeStadiumWishlistButtonClickedEvent(
+      {required this.stadiumClicked, required this.isLiked});
 }
 
 class HomeStadiumPlannedButtonClickedEvent extends HomeEvent {

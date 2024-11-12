@@ -72,7 +72,7 @@ class DBHelper {
         COLUMN_NOTE_DESC: mDesc,
       },
       //updating only that notes whose COLUMN_NOTE_SNO is sno
-      where: "${COLUMN_NOTE_SNO}= $sno",
+      where: "$COLUMN_NOTE_SNO= $sno",
     );
 
     return rowsAffected > 0;

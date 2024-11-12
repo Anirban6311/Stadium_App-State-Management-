@@ -18,7 +18,7 @@ class NotesLoadingState extends NotesState {}
 class NotesLoadedState extends NotesState {
   final List<Map<String, dynamic>> notes;
 
-  NotesLoadedState(this.notes);
+  const NotesLoadedState(this.notes);
 
   @override
   List<Object> get props => [notes];
